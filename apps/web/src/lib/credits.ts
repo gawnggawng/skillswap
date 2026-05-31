@@ -1,4 +1,4 @@
-import { db } from "@skillswap/db";
+import { db, type Prisma } from "@skillswap/db";
 import type { CreditTransactionType } from "@skillswap/types/credit";
 
 export const WELCOME_CREDITS = 2;
@@ -23,7 +23,7 @@ export async function freezeCredits(
   userId: string,
   sessionId: string
 ): Promise<void> {
-  await db.$transaction(async (tx) => {
+  await db.$transaction(async (tx: Prisma.TransactionClient) => {
     const user = await tx.user.findUniqueOrThrow({
       where: { id: userId },
       select: { creditBalance: true },
