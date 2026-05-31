@@ -1,0 +1,59 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "globalEnv": [
+    "DATABASE_URL",
+    "DIRECT_URL",
+    "AUTH_SECRET",
+    "AUTH_GOOGLE_ID",
+    "AUTH_GOOGLE_SECRET",
+    "AUTH_GITHUB_ID",
+    "AUTH_GITHUB_SECRET",
+    "LIVEKIT_API_KEY",
+    "LIVEKIT_API_SECRET",
+    "LIVEKIT_HOST",
+    "NEXT_PUBLIC_LIVEKIT_HOST",
+    "DEEPSEEK_API_KEY",
+    "UPLOADTHING_TOKEN",
+    "UPLOADTHING_SECRET",
+    "UPSTASH_REDIS_URL",
+    "UPSTASH_REDIS_TOKEN",
+    "TRIGGER_SECRET_KEY",
+    "NEXT_PUBLIC_APP_URL",
+    "SENTRY_DSN"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:e2e": {
+      "dependsOn": ["^build"]
+    },
+    "db:migrate:dev": {
+      "cache": false
+    },
+    "db:studio": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

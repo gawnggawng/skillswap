@@ -1,0 +1,20 @@
+{
+  "name": "@skillswap/trigger",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "trigger dev",
+    "deploy": "trigger deploy"
+  },
+  "dependencies": {
+    "@skillswap/db": "workspace:*",
+    "@trigger.dev/sdk": "^4.4.0",
+    "livekit-server-sdk": "^2.8.0",
+    "openai": "^4.70.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0",
+    "trigger.dev": "^4.4.0"
+  }
+}

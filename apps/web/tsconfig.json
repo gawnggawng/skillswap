@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "declaration": false,
+    "declarationMap": false,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@skillswap/types": ["../../packages/types/src/index.ts"],
+      "@skillswap/types/*": ["../../packages/types/src/*"],
+      "@skillswap/api": ["../../packages/api/src/index.ts"],
+      "@skillswap/api/*": ["../../packages/api/src/*"],
+      "@skillswap/db": ["../../packages/db/src/index.ts"],
+      "@skillswap/ui": ["../../packages/ui/src/index.ts"],
+      "@skillswap/ui/*": ["../../packages/ui/src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
