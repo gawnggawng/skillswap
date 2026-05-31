@@ -12,30 +12,32 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center bg-neutral-50 px-8">
-      <Text className="text-2xl font-bold">Welcome back</Text>
-      <Text className="mt-1 text-neutral-600">
+    <View className="flex-1 justify-center bg-paper px-8">
+      <Text className="font-display text-2xl font-bold text-ink">
+        Welcome back
+      </Text>
+      <Text className="mt-1 text-sand-600">
         Sign in to your SkillSwap account
       </Text>
-      <View className="mt-8 space-y-3">
+      <View className="mt-8 gap-3">
         <Pressable
           onPress={handleGoogleLogin}
-          className="w-full rounded-xl border border-neutral-300 py-4"
+          className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200"
         >
-          <Text className="text-center font-semibold text-neutral-700">
+          <Text className="text-center font-semibold text-sand-700">
             Continue with Google
           </Text>
         </Pressable>
-        <Pressable className="w-full rounded-xl border border-neutral-300 py-4">
-          <Text className="text-center font-semibold text-neutral-700">
+        <Pressable className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200">
+          <Text className="text-center font-semibold text-sand-700">
             Continue with GitHub
           </Text>
         </Pressable>
       </View>
-      <Text className="mt-6 text-center text-sm text-neutral-500">
+      <Text className="mt-6 text-center text-sm text-sand-500">
         No account yet?{" "}
         <Link href="/signup">
-          <Text className="text-primary-600">Sign up</Text>
+          <Text className="font-semibold text-clay-600">Sign up</Text>
         </Link>
       </Text>
     </View>

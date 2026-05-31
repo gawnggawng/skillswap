@@ -1,10 +1,30 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { ApiProvider } from "@skillswap/api";
+import { ThemeProvider } from "@skillswap/ui/components/theme-provider";
 import { TooltipProvider } from "@skillswap/ui/components/tooltip";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+/* Editorial display serif — feeds --font-display (see globals.css @theme). */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  axes: ["opsz", "SOFT", "WONK"],
+});
+
+/* Humanist body sans — feeds --font-sans. */
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "SkillSwap — Barter your knowledge",
@@ -19,11 +39,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-neutral-50 text-neutral-900 antialiased`}>
-        <ApiProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-        </ApiProvider>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fraunces.variable} ${plusJakarta.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="antialiased">
+        <ThemeProvider>
+          <ApiProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </ApiProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -20,6 +20,12 @@ importers:
 
   apps/mobile:
     dependencies:
+      '@expo-google-fonts/fraunces':
+        specifier: ^0.4.1
+        version: 0.4.1
+      '@expo-google-fonts/plus-jakarta-sans':
+        specifier: ^0.4.1
+        version: 0.4.2
       '@livekit/react-native':
         specifier: ^2.11.0
         version: 2.11.0(@livekit/react-native-webrtc@144.1.0(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6)))(livekit-client@2.19.1(@types/dom-mediacapture-record@1.0.22))(react-dom@19.2.6(react@19.2.6))(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6)(tslib@2.8.1)
@@ -53,6 +59,9 @@ importers:
       expo-device:
         specifier: ~7.0.0
         version: 7.0.3(expo@54.0.35)
+      expo-font:
+        specifier: ~14.0.12
+        version: 14.0.12(expo@54.0.35)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6)
       expo-linking:
         specifier: ~7.0.0
         version: 7.0.5(expo@54.0.35)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6)
@@ -68,6 +77,9 @@ importers:
       expo-status-bar:
         specifier: ~2.0.0
         version: 2.0.1(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6)
+      expo-web-browser:
+        specifier: ~15.0.11
+        version: 15.0.11(expo@54.0.35)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))
       livekit-client:
         specifier: ^2.8.0
         version: 2.19.1(@types/dom-mediacapture-record@1.0.22)
@@ -1073,6 +1085,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@expo-google-fonts/fraunces@0.4.1':
+    resolution: {integrity: sha512-gYc9P92ObyWvz1rWPOeWSvVKyBFIuA8hgOdhvo4DSiPBaWLbFA6v8uLIEIBwW+0oWTlXbBzjeBReHQI2H7UNjQ==}
+
+  '@expo-google-fonts/plus-jakarta-sans@0.4.2':
+    resolution: {integrity: sha512-6LYVmVGwjQvH+uzzWlVc9+oMj4lkNQ41aymVDjO+x8aFk8kCye20wOyLomYMZaMezA++Uf1mZRCw3W3Fy/hxEA==}
 
   '@expo/cli@54.0.25':
     resolution: {integrity: sha512-WnUqIb8oMBhtwSfIqdCHCzcaDIpLNXItRVd5miuvWi4GO0SGo89PSsAkbVJ+LJgcaY+v5rbgMELJS9I/CqOulA==}
@@ -3975,6 +3993,12 @@ packages:
     resolution: {integrity: sha512-AkIPX7jWHRPp83UBZ1iXtVvyr0g+DgBVvIXTtlmPtmUsm8Vq9Bb5IGj86PW8osuFlgoTVAg7HI/+Ok7yEYwiRg==}
     peerDependencies:
       react: '*'
+      react-native: '*'
+
+  expo-web-browser@15.0.11:
+    resolution: {integrity: sha512-r2LS4Ro6DgUPZkcaEfgt8mp9eJuoA93x11Jh7S6utFe0FEzvUNn2yFhxg8XVwESaaHGt2k5V8LuK36rsp0BeIw==}
+    peerDependencies:
+      expo: '*'
       react-native: '*'
 
   expo@54.0.35:
@@ -7407,6 +7431,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.23.1':
     optional: true
+
+  '@expo-google-fonts/fraunces@0.4.1': {}
+
+  '@expo-google-fonts/plus-jakarta-sans@0.4.2': {}
 
   '@expo/cli@54.0.25(expo-router@4.0.22)(expo@54.0.35)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(typescript@5.9.3)':
     dependencies:
@@ -10878,6 +10906,11 @@ snapshots:
   expo-status-bar@2.0.1(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6):
     dependencies:
       react: 19.2.6
+      react-native: 0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6)
+
+  expo-web-browser@15.0.11(expo@54.0.35)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6)):
+    dependencies:
+      expo: 54.0.35(@babel/core@7.29.7)(@expo/metro-runtime@4.0.1(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6)))(expo-router@4.0.22)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6)(typescript@5.9.3)
       react-native: 0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6)
 
   expo@54.0.35(@babel/core@7.29.7)(@expo/metro-runtime@4.0.1(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6)))(expo-router@4.0.22)(react-native@0.85.3(@babel/core@7.29.7)(@types/react@19.2.15)(react@19.2.6))(react@19.2.6)(typescript@5.9.3):

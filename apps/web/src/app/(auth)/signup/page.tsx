@@ -1,25 +1,32 @@
+import Link from "next/link";
+import { Button } from "@skillswap/ui/components/button";
+import { CreditChip } from "@skillswap/ui/components/credit-chip";
+
 export default function SignupPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Create your account</h1>
-        <p className="mt-1 text-neutral-600">
-          Get 2 free credits to start learning. Teach a session to earn more.
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Create your account
+        </h1>
+        <p className="mt-1 flex flex-wrap items-center gap-1.5 text-muted-foreground">
+          Start with <CreditChip delta="earn" size="sm">2</CreditChip> free
+          credits. Teach a session to earn more.
         </p>
       </div>
       <div className="space-y-3">
-        <button className="w-full rounded-lg border border-neutral-300 px-4 py-3 font-medium hover:bg-neutral-50 transition-colors">
+        <Button variant="outline" size="lg" className="h-11 w-full">
           Continue with Google
-        </button>
-        <button className="w-full rounded-lg border border-neutral-300 px-4 py-3 font-medium hover:bg-neutral-50 transition-colors">
+        </Button>
+        <Button variant="outline" size="lg" className="h-11 w-full">
           Continue with GitHub
-        </button>
+        </Button>
       </div>
-      <p className="text-center text-sm text-neutral-500">
+      <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <a href="/login" className="text-primary-600 hover:underline">
+        <Link href="/login" className="font-medium text-primary hover:underline">
           Sign in
-        </a>
+        </Link>
       </p>
     </div>
   );

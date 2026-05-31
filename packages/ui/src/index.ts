@@ -13,3 +13,7 @@ export * from "./components/tabs";
 export * from "./components/separator";
 export * from "./components/skeleton";
 export * from "./components/tooltip";
+export * from "./components/theme-provider";
+export * from "./components/mode-toggle";
+export * from "./components/credit-chip";
+export * from "./components/trust-score";

@@ -1,78 +1,233 @@
 @import "tailwindcss";
 
+/* ============================================================================
+   SkillSwap Design System — "Warm Craft / Editorial"
+   ----------------------------------------------------------------------------
+   One palette, three surfaces (web here, mobile mirrors this in tokens.ts +
+   apps/mobile/global.css). Brand = human, generous, anti-fintech. Time, not
+   money. Terracotta clay carries action; sage carries learning/growth; gold
+   is the time-credit currency.
+
+   Token layers:
+     1. @theme            → static brand scales + fonts (generate clay-*, sage-*,
+                            gold-*, sand-* utilities; do NOT change with mode)
+     2. :root / .dark     → semantic + brand tokens in OKLCH (mode-aware)
+     3. @theme inline     → expose semantic/brand tokens as Tailwind color utils
+   Always reach for semantic tokens (bg-background, text-foreground, bg-primary,
+   bg-credit…) in product UI. Raw scales (clay-600) are for one-off accents only.
+============================================================================ */
+
 @custom-variant dark (&:is(.dark *));
 
+/* ── Layer 1: static brand scales + type + shape ─────────────────────────── */
+@theme {
+  /* Typography — distinctive, characterful, NOT Inter/Roboto/system */
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Clay / terracotta — the action color (warmth of a person teaching) */
+  --color-clay-50: oklch(0.967 0.018 50);
+  --color-clay-100: oklch(0.935 0.034 48);
+  --color-clay-200: oklch(0.882 0.058 46);
+  --color-clay-300: oklch(0.808 0.09 44);
+  --color-clay-400: oklch(0.715 0.118 42);
+  --color-clay-500: oklch(0.638 0.135 40);
+  --color-clay-600: oklch(0.585 0.14 39);
+  --color-clay-700: oklch(0.505 0.128 38);
+  --color-clay-800: oklch(0.43 0.105 37);
+  --color-clay-900: oklch(0.375 0.085 37);
+  --color-clay-950: oklch(0.255 0.055 36);
+
+  /* Sage — learning, growth, "what you want to learn" */
+  --color-sage-50: oklch(0.965 0.015 150);
+  --color-sage-100: oklch(0.935 0.028 150);
+  --color-sage-200: oklch(0.885 0.045 148);
+  --color-sage-300: oklch(0.805 0.06 147);
+  --color-sage-400: oklch(0.695 0.065 146);
+  --color-sage-500: oklch(0.605 0.062 145);
+  --color-sage-600: oklch(0.53 0.058 144);
+  --color-sage-700: oklch(0.455 0.05 144);
+  --color-sage-800: oklch(0.385 0.04 144);
+  --color-sage-900: oklch(0.33 0.032 144);
+  --color-sage-950: oklch(0.235 0.022 144);
+
+  /* Gold — the time-credit currency. Used sparingly, like a coin. */
+  --color-gold-50: oklch(0.975 0.022 90);
+  --color-gold-100: oklch(0.952 0.04 88);
+  --color-gold-200: oklch(0.91 0.07 86);
+  --color-gold-300: oklch(0.865 0.095 84);
+  --color-gold-400: oklch(0.82 0.11 82);
+  --color-gold-500: oklch(0.775 0.118 80);
+  --color-gold-600: oklch(0.7 0.115 78);
+  --color-gold-700: oklch(0.6 0.1 76);
+  --color-gold-800: oklch(0.495 0.082 74);
+  --color-gold-900: oklch(0.42 0.066 74);
+  --color-gold-950: oklch(0.29 0.045 74);
+
+  /* Sand — warm neutral ramp (paper → ink). Replaces cold gray everywhere. */
+  --color-sand-50: oklch(0.985 0.004 85);
+  --color-sand-100: oklch(0.968 0.008 84);
+  --color-sand-200: oklch(0.905 0.009 80);
+  --color-sand-300: oklch(0.86 0.011 78);
+  --color-sand-400: oklch(0.715 0.012 72);
+  --color-sand-500: oklch(0.575 0.012 66);
+  --color-sand-600: oklch(0.475 0.011 60);
+  --color-sand-700: oklch(0.395 0.01 58);
+  --color-sand-800: oklch(0.305 0.008 56);
+  --color-sand-900: oklch(0.255 0.006 58);
+  --color-sand-950: oklch(0.185 0.005 58);
+
+  /* Motion timing — calm, confident, never bouncy in a learning context */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ── Layer 2: semantic + brand tokens (light = default) ──────────────────── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.546 0.245 262.881);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.965 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.965 0 0);
-  --muted-foreground: oklch(0.553 0 0);
-  --accent: oklch(0.965 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.546 0.245 262.881);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.965 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+
+  /* Surfaces & text */
+  --background: oklch(0.972 0.008 83); /* warm paper #FBF7F0 */
+  --foreground: oklch(0.255 0.006 58); /* ink #21201C */
+  --card: oklch(0.99 0.005 85); /* warm white, lifts off paper */
+  --card-foreground: oklch(0.255 0.006 58);
+  --popover: oklch(0.99 0.005 85);
+  --popover-foreground: oklch(0.255 0.006 58);
+
+  /* Primary = clay (action) */
+  --primary: oklch(0.585 0.14 39);
+  --primary-foreground: oklch(0.985 0.006 85);
+
+  /* Secondary / muted / accent = warm neutral surfaces */
+  --secondary: oklch(0.928 0.009 82);
+  --secondary-foreground: oklch(0.305 0.008 56);
+  --muted: oklch(0.945 0.008 83);
+  --muted-foreground: oklch(0.545 0.012 64);
+  --accent: oklch(0.935 0.012 70);
+  --accent-foreground: oklch(0.305 0.008 56);
+
+  /* Status */
+  --destructive: oklch(0.577 0.21 27);
+  --destructive-foreground: oklch(0.985 0.006 85);
+
+  /* Lines & focus */
+  --border: oklch(0.9 0.009 78);
+  --input: oklch(0.9 0.009 78);
+  --ring: oklch(0.638 0.135 40); /* clay focus ring — brand-tinted */
+
+  /* ── Brand-specific semantic tokens (SkillSwap concepts) ──
+     credit = the gold time-credit currency
+     learn  = sage, "skills I want to learn"
+     teach  = clay, "skills I can teach" (aliases primary)
+     trust  = gold, the Trust Score star color
+     online = bright sage, the "live now" indicator */
+  --credit: oklch(0.7 0.115 78);
+  --credit-foreground: oklch(0.29 0.045 74);
+  --learn: oklch(0.53 0.058 144);
+  --learn-foreground: oklch(0.985 0.006 85);
+  --teach: oklch(0.585 0.14 39);
+  --teach-foreground: oklch(0.985 0.006 85);
+  --trust: oklch(0.7 0.115 78);
+  --online: oklch(0.605 0.09 150);
+
+  --success: oklch(0.58 0.07 150);
+  --success-foreground: oklch(0.985 0.006 85);
+  --warning: oklch(0.72 0.11 75);
+  --warning-foreground: oklch(0.255 0.04 70);
+  --info: oklch(0.6 0.07 240);
+  --info-foreground: oklch(0.985 0.006 85);
+
+  /* Charts — warm, distinct, on-brand (clay, sage, gold, dusty-blue, plum) */
+  --chart-1: oklch(0.585 0.14 39);
+  --chart-2: oklch(0.53 0.058 144);
+  --chart-3: oklch(0.775 0.118 80);
+  --chart-4: oklch(0.58 0.08 245);
+  --chart-5: oklch(0.55 0.13 350);
+
+  /* Warm-tinted elevation (brown shadow, never neutral black) */
+  --shadow-color: 28 22 14;
+  --shadow-xs: 0 1px 2px rgb(var(--shadow-color) / 0.05);
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.06), 0 1px 3px rgb(var(--shadow-color) / 0.05);
+  --shadow-md: 0 2px 4px rgb(var(--shadow-color) / 0.05), 0 6px 12px rgb(var(--shadow-color) / 0.08);
+  --shadow-lg: 0 4px 8px rgb(var(--shadow-color) / 0.05), 0 16px 28px rgb(var(--shadow-color) / 0.1);
+
+  /* Sidebar */
+  --sidebar: oklch(0.99 0.005 85);
+  --sidebar-foreground: oklch(0.255 0.006 58);
+  --sidebar-primary: oklch(0.585 0.14 39);
+  --sidebar-primary-foreground: oklch(0.985 0.006 85);
+  --sidebar-accent: oklch(0.935 0.012 70);
+  --sidebar-accent-foreground: oklch(0.305 0.008 56);
+  --sidebar-border: oklch(0.9 0.009 78);
+  --sidebar-ring: oklch(0.638 0.135 40);
 }
 
+/* ── Dark = "lamplight study": warm ink canvas, not flat black ───────────── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.623 0.214 259.815);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: oklch(0.205 0.008 70); /* warm charcoal #16140F-ish */
+  --foreground: oklch(0.945 0.008 85); /* bone */
+  --card: oklch(0.245 0.009 68);
+  --card-foreground: oklch(0.945 0.008 85);
+  --popover: oklch(0.245 0.009 68);
+  --popover-foreground: oklch(0.945 0.008 85);
+
+  --primary: oklch(0.66 0.142 41); /* clay brightened for dark contrast */
+  --primary-foreground: oklch(0.205 0.04 40);
+
+  --secondary: oklch(0.295 0.01 66);
+  --secondary-foreground: oklch(0.945 0.008 85);
+  --muted: oklch(0.285 0.009 66);
+  --muted-foreground: oklch(0.71 0.011 75);
+  --accent: oklch(0.31 0.012 64);
+  --accent-foreground: oklch(0.945 0.008 85);
+
+  --destructive: oklch(0.62 0.2 27);
+  --destructive-foreground: oklch(0.985 0.006 85);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.66 0.142 41);
+
+  --credit: oklch(0.79 0.12 80);
+  --credit-foreground: oklch(0.255 0.045 74);
+  --learn: oklch(0.7 0.065 146);
+  --learn-foreground: oklch(0.205 0.03 144);
+  --teach: oklch(0.66 0.142 41);
+  --teach-foreground: oklch(0.205 0.04 40);
+  --trust: oklch(0.79 0.12 80);
+  --online: oklch(0.72 0.1 150);
+
+  --success: oklch(0.7 0.08 150);
+  --success-foreground: oklch(0.205 0.03 144);
+  --warning: oklch(0.8 0.11 78);
+  --warning-foreground: oklch(0.255 0.04 70);
+  --info: oklch(0.7 0.08 240);
+  --info-foreground: oklch(0.205 0.03 240);
+
+  --chart-1: oklch(0.66 0.142 41);
+  --chart-2: oklch(0.7 0.065 146);
+  --chart-3: oklch(0.79 0.12 80);
+  --chart-4: oklch(0.68 0.09 245);
+  --chart-5: oklch(0.66 0.14 350);
+
+  --shadow-color: 0 0 0;
+  --shadow-xs: 0 1px 2px rgb(var(--shadow-color) / 0.4);
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.4), 0 1px 3px rgb(var(--shadow-color) / 0.3);
+  --shadow-md: 0 2px 4px rgb(var(--shadow-color) / 0.3), 0 6px 12px rgb(var(--shadow-color) / 0.4);
+  --shadow-lg: 0 4px 8px rgb(var(--shadow-color) / 0.3), 0 16px 28px rgb(var(--shadow-color) / 0.5);
+
+  --sidebar: oklch(0.235 0.009 68);
+  --sidebar-foreground: oklch(0.945 0.008 85);
+  --sidebar-primary: oklch(0.66 0.142 41);
+  --sidebar-primary-foreground: oklch(0.205 0.04 40);
+  --sidebar-accent: oklch(0.31 0.012 64);
+  --sidebar-accent-foreground: oklch(0.945 0.008 85);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.66 0.142 41);
 }
 
+/* ── Layer 3: expose semantic/brand tokens as Tailwind color utilities ───── */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -93,15 +248,29 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Brand semantics */
+  --color-credit: var(--credit);
+  --color-credit-foreground: var(--credit-foreground);
+  --color-learn: var(--learn);
+  --color-learn-foreground: var(--learn-foreground);
+  --color-teach: var(--teach);
+  --color-teach-foreground: var(--teach-foreground);
+  --color-trust: var(--trust);
+  --color-online: var(--online);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -110,13 +279,86 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Fluid display scale for editorial headlines */
+  --text-display-sm: clamp(1.75rem, 1.2rem + 2.4vw, 2.5rem);
+  --text-display: clamp(2.5rem, 1.4rem + 4.6vw, 4rem);
+  --text-display-lg: clamp(3rem, 1.4rem + 6.6vw, 5.5rem);
 }
 
+/* ── Base layer ──────────────────────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Subtle paper grain: two offset radial washes, no image asset needed */
+    background-image:
+      radial-gradient(at 18% 12%, color-mix(in oklch, var(--primary) 5%, transparent) 0px, transparent 55%),
+      radial-gradient(at 84% 0%, color-mix(in oklch, var(--learn) 4%, transparent) 0px, transparent 50%);
+    background-attachment: fixed;
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+    font-optical-sizing: auto;
+  }
+
+  /* Numbers (credits, scores, durations) line up in tables and chips */
+  .tabular-nums,
+  [data-slot="credit"],
+  [data-slot="trust-score"] {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ── Motion: one well-orchestrated entrance, used via .animate-* utilities ── */
+@layer utilities {
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes coin-spin {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--online) 50%, transparent); }
+    70% { box-shadow: 0 0 0 6px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .animate-rise-in {
+    animation: rise-in 0.6s var(--ease-out-soft) both;
+  }
+  /* Staggered reveals: wrap children, apply .stagger to parent */
+  .stagger > * {
+    animation: rise-in 0.6s var(--ease-out-soft) both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0.04s; }
+  .stagger > *:nth-child(2) { animation-delay: 0.1s; }
+  .stagger > *:nth-child(3) { animation-delay: 0.16s; }
+  .stagger > *:nth-child(4) { animation-delay: 0.22s; }
+  .stagger > *:nth-child(5) { animation-delay: 0.28s; }
+  .stagger > *:nth-child(6) { animation-delay: 0.34s; }
+
+  .animate-coin-spin { animation: coin-spin 1.2s var(--ease-in-out-soft); }
+  .animate-pulse-ring { animation: pulse-ring 2s var(--ease-out-soft) infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rise-in,
+    .stagger > *,
+    .animate-coin-spin,
+    .animate-pulse-ring {
+      animation: none !important;
+    }
   }
 }

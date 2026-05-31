@@ -1,43 +1,43 @@
+import Link from "next/link";
 import { signIn } from "@/lib/auth";
+import { Button } from "@skillswap/ui/components/button";
 
 export default function LoginPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Welcome back</h1>
-        <p className="mt-1 text-neutral-600">Sign in to your SkillSwap account</p>
+        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+        <p className="mt-1 text-muted-foreground">
+          Sign in to your SkillSwap account
+        </p>
       </div>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("google", { redirectTo: "/dashboard" });
-        }}
-      >
-        <button
-          type="submit"
-          className="w-full rounded-lg border border-neutral-300 px-4 py-3 font-medium hover:bg-neutral-50 transition-colors"
+      <div className="space-y-3">
+        <form
+          action={async () => {
+            "use server";
+            await signIn("google", { redirectTo: "/dashboard" });
+          }}
         >
-          Continue with Google
-        </button>
-      </form>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("github", { redirectTo: "/dashboard" });
-        }}
-      >
-        <button
-          type="submit"
-          className="w-full rounded-lg border border-neutral-300 px-4 py-3 font-medium hover:bg-neutral-50 transition-colors"
+          <Button type="submit" variant="outline" size="lg" className="h-11 w-full">
+            Continue with Google
+          </Button>
+        </form>
+        <form
+          action={async () => {
+            "use server";
+            await signIn("github", { redirectTo: "/dashboard" });
+          }}
         >
-          Continue with GitHub
-        </button>
-      </form>
-      <p className="text-center text-sm text-neutral-500">
+          <Button type="submit" variant="outline" size="lg" className="h-11 w-full">
+            Continue with GitHub
+          </Button>
+        </form>
+      </div>
+      <p className="text-center text-sm text-muted-foreground">
         No account yet?{" "}
-        <a href="/signup" className="text-primary-600 hover:underline">
+        <Link href="/signup" className="font-medium text-primary hover:underline">
           Sign up
-        </a>
+        </Link>
       </p>
     </div>
   );

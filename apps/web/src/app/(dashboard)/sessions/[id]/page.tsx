@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/page-header";
+
 interface SessionPageProps {
   params: Promise<{ id: string }>;
 }
@@ -5,9 +7,13 @@ interface SessionPageProps {
 export default async function SessionPage({ params }: SessionPageProps) {
   const { id } = await params;
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Session</h1>
-      <p className="mt-2 text-neutral-600">Session ID: {id}</p>
-    </div>
+    <PageHeader
+      title="Session"
+      description={
+        <>
+          Session ID: <span className="font-mono text-foreground">{id}</span>
+        </>
+      }
+    />
   );
 }
