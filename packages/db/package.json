@@ -5,6 +5,8 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
+    "build": "prisma generate",
+    "postinstall": "prisma generate",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "db:migrate:dev": "prisma migrate dev",
