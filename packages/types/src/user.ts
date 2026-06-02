@@ -7,7 +7,7 @@ export interface User {
   timezone: string;
   creditBalance: number;
   trustScore: number;
-  emailVerified: Date | null;
+  emailVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
