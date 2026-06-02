@@ -83,46 +83,58 @@ export default function LandingPage() {
         </div>
 
         {/* Sample match card — shows the brand components in context */}
-        <div className="relative">
+        <div className="relative lg:max-w-md lg:justify-self-end">
           <div
             aria-hidden
-            className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-clay-200/40 via-transparent to-sage-200/40 blur-2xl"
+            className="pointer-events-none absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-clay-200/40 via-transparent to-sage-200/40 blur-2xl"
           />
           <Card className="animate-rise-in shadow-lg">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <Avatar className="size-12">
-                <AvatarFallback className="bg-sage-100 font-display text-sage-800">
-                  AN
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0 flex-1">
-                <p className="font-display text-lg leading-tight font-semibold">Anna Nilsson</p>
-                <TrustScore value={4.7} count={23} size="sm" className="mt-0.5" />
+            <CardHeader className="gap-3 border-b pb-4">
+              <div className="flex items-start gap-3">
+                <Avatar className="size-12 shrink-0">
+                  <AvatarFallback className="bg-sage-100 font-display text-sage-800">
+                    AN
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-display text-lg leading-tight font-semibold">
+                      Anna Nilsson
+                    </p>
+                    <Badge className="shrink-0 border-transparent bg-online/15 text-online">
+                      <span className="mr-1 inline-block size-1.5 rounded-full bg-online animate-pulse-ring" />
+                      online
+                    </Badge>
+                  </div>
+                  <TrustScore value={4.7} count={23} size="sm" />
+                </div>
               </div>
-              <Badge className="bg-online/15 text-online border-transparent">
-                <span className="mr-1 inline-block size-1.5 rounded-full bg-online animate-pulse-ring" />
-                online
-              </Badge>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-5">
               <div>
-                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">Teaches</p>
+                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  Teaches
+                </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {["Python", "Data viz", "SQL"].map((s) => (
-                    <Badge key={s} variant="secondary" className="border-teach/15 bg-teach/10 text-foreground">
+                    <Badge
+                      key={s}
+                      variant="secondary"
+                      className="border-teach/15 bg-teach/10 text-foreground"
+                    >
                       {s}
                     </Badge>
                   ))}
                 </div>
               </div>
               <div>
-                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">You want to learn</p>
+                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  You want to learn
+                </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  {["Python"].map((s) => (
-                    <Badge key={s} className="border-transparent bg-learn/15 text-learn dark:text-learn-foreground">
-                      {s}
-                    </Badge>
-                  ))}
+                  <Badge className="border-transparent bg-learn/15 text-learn dark:text-learn-foreground">
+                    Python
+                  </Badge>
                 </div>
               </div>
               <p className="rounded-lg bg-muted/60 p-3 text-sm text-muted-foreground text-pretty">
@@ -131,9 +143,12 @@ export default function LandingPage() {
                 Tuesday evenings your time.
               </p>
             </CardContent>
-            <CardFooter className="flex items-center justify-between">
-              <CreditChip label="to book">1</CreditChip>
-              <Button>
+            <CardFooter className="flex flex-wrap items-center gap-3 sm:justify-between">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <CreditChip size="sm">1</CreditChip>
+                <span>to book this session</span>
+              </div>
+              <Button className="shrink-0">
                 Request session <ArrowRight />
               </Button>
             </CardFooter>

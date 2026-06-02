@@ -39,7 +39,7 @@ const config: ExpoConfig = {
     typedRoutes: true,
   },
   extra: {
-    apiUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    apiUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:4000",
     livekitHost:
       process.env.NEXT_PUBLIC_LIVEKIT_HOST || "wss://your-project.livekit.cloud",
   },

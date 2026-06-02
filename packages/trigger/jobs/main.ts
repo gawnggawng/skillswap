@@ -1,6 +1,6 @@
 import { task, schedule } from "@trigger.dev/sdk/v3";
 import { db } from "@skillswap/db";
-import { expireInactiveCredits, recalculateTrustScore } from "../../apps/web/src/lib/credits";
+import { expireInactiveCredits, recalculateTrustScore } from "@skillswap/core/credits";
 
 export const dailyMatchingJob = task({
   id: "daily-matching",

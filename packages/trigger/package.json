@@ -7,6 +7,7 @@
     "deploy": "trigger deploy"
   },
   "dependencies": {
+    "@skillswap/core": "workspace:*",
     "@skillswap/db": "workspace:*",
     "@trigger.dev/sdk": "^4.4.0",
     "livekit-server-sdk": "^2.8.0",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "dotenv": "^16.4.5",
     "typescript": "^5.9.0",
     "trigger.dev": "^4.4.0"
   }

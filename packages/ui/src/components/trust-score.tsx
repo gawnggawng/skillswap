@@ -47,19 +47,23 @@ function TrustScore({
       {...props}
     >
       {showStars ? (
-        <span className="inline-flex items-center gap-0.5" aria-hidden>
+        <span className="inline-flex shrink-0 items-center gap-0.5" aria-hidden>
           {[0, 1, 2, 3, 4].map((i) => {
             const fill = Math.max(0, Math.min(1, clamped - i))
             return (
-              <span key={i} className={cn("relative inline-block", s.star)}>
-                <Star className={cn("absolute inset-0 text-trust/25", s.star)} />
+              <span
+                key={i}
+                className={cn("relative inline-flex shrink-0", s.star)}
+              >
+                <Star className={cn("size-full text-trust/25")} strokeWidth={1.5} />
                 <span
                   className="absolute inset-0 overflow-hidden"
                   style={{ width: `${fill * 100}%` }}
                 >
                   <Star
-                    className={cn("text-trust", s.star)}
-                    style={{ fill: "currentColor" }}
+                    className="size-full text-trust"
+                    fill="currentColor"
+                    strokeWidth={1.5}
                   />
                 </span>
               </span>

@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Scan app + shared UI sources so component utilities (size-*, sr-only, etc.) ship. */
+@source "../components";
+@source "../hooks";
+@source "../../../../apps/web/src";
+@source "../../../../apps/mobile";
+
 /* ============================================================================
    SkillSwap Design System — "Warm Craft / Editorial"
    ----------------------------------------------------------------------------

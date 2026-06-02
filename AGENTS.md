@@ -352,7 +352,7 @@ shape response.**
 2. Copy `.env.example` → `.env` and fill in values
 3. `cp .env packages/db/.env && pnpm --filter @skillswap/db exec prisma db push`
 4. `pnpm dev` — start web + mobile + trigger dev servers
-5. Visit http://localhost:3000 for the web app
+5. Visit http://localhost:4000 for the web app
 
 **Prerequisites:** Node ≥ 20.9, pnpm ≥ 9, Xcode 16+ (iOS), Android Studio (Android),
 Docker (optional, local Redis/Postgres).

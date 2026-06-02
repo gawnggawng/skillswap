@@ -1111,7 +1111,7 @@ LiveKit:
 
 | Environment | Database | Domain |
 |---|---|---|
-| **Development** | Neon branch `dev` | `localhost:3000` |
+| **Development** | Neon branch `dev` | `localhost:4000` |
 | **Preview** | Neon branch `preview` | `<branch>.skillswap.vercel.app` |
 | **Production** | Neon branch `main` | `skillswap.app` |
 
@@ -1181,7 +1181,7 @@ UPSTASH_REDIS_TOKEN="..."
 TRIGGER_SECRET_KEY="..."
 
 # App
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:4000"
 NEXT_PUBLIC_LIVEKIT_HOST="wss://..."
 
 # Sentry
@@ -1220,7 +1220,7 @@ pnpm --filter @skillswap/db exec prisma db push
 pnpm dev
 
 # This starts:
-# - apps/web        → localhost:3000
+# - apps/web        → localhost:4000
 # - apps/mobile     → Expo dev server
 # - trigger dev     → localhost:8889 (Trigger.dev tunnel)
 

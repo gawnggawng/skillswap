@@ -2,7 +2,7 @@ import { View, Text, Pressable } from "react-native";
 import { Link } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3000";
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://localhost:4000";
 
 export default function LoginScreen() {
   const handleGoogleLogin = async () => {
