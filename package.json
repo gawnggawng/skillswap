@@ -19,5 +19,10 @@
     "turbo": "^2.4.0",
     "typescript": "^5.9.0",
     "@types/node": "^22.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "kysely": "0.28.17"
+    }
   }
 }

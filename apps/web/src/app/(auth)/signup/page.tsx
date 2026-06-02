@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@skillswap/ui/components/button";
 import { CreditChip } from "@skillswap/ui/components/credit-chip";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignupPage() {
   return (
@@ -15,10 +18,24 @@ export default function SignupPage() {
         </p>
       </div>
       <div className="space-y-3">
-        <Button variant="outline" size="lg" className="h-11 w-full">
+        <Button
+          variant="outline"
+          size="lg"
+          className="h-11 w-full"
+          onClick={() =>
+            authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" })
+          }
+        >
           Continue with Google
         </Button>
-        <Button variant="outline" size="lg" className="h-11 w-full">
+        <Button
+          variant="outline"
+          size="lg"
+          className="h-11 w-full"
+          onClick={() =>
+            authClient.signIn.social({ provider: "github", callbackURL: "/dashboard" })
+          }
+        >
           Continue with GitHub
         </Button>
       </div>

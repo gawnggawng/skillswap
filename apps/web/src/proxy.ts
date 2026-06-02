@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { NextResponse, type NextRequest } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
-export default auth((req) => {
+export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
-    if (!req.auth) {
+    const sessionCookie = getSessionCookie(req);
+    if (!sessionCookie) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: ["/dashboard/:path*", "/admin/:path*"],

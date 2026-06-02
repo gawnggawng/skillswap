@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { signIn } from "@/lib/auth";
 import { Button } from "@skillswap/ui/components/button";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   return (
@@ -12,26 +14,26 @@ export default function LoginPage() {
         </p>
       </div>
       <div className="space-y-3">
-        <form
-          action={async () => {
-            "use server";
-            await signIn("google", { redirectTo: "/dashboard" });
-          }}
+        <Button
+          variant="outline"
+          size="lg"
+          className="h-11 w-full"
+          onClick={() =>
+            authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" })
+          }
         >
-          <Button type="submit" variant="outline" size="lg" className="h-11 w-full">
-            Continue with Google
-          </Button>
-        </form>
-        <form
-          action={async () => {
-            "use server";
-            await signIn("github", { redirectTo: "/dashboard" });
-          }}
+          Continue with Google
+        </Button>
+        <Button
+          variant="outline"
+          size="lg"
+          className="h-11 w-full"
+          onClick={() =>
+            authClient.signIn.social({ provider: "github", callbackURL: "/dashboard" })
+          }
         >
-          <Button type="submit" variant="outline" size="lg" className="h-11 w-full">
-            Continue with GitHub
-          </Button>
-        </form>
+          Continue with GitHub
+        </Button>
       </div>
       <p className="text-center text-sm text-muted-foreground">
         No account yet?{" "}

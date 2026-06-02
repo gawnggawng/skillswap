@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { LayoutDashboard, Sparkles, Video, UserRound } from "lucide-react";
 import { CreditChip } from "@skillswap/ui/components/credit-chip";
 import { ModeToggle } from "@skillswap/ui/components/mode-toggle";
+import { db } from "@skillswap/db";
+import { getCurrentUser } from "@/lib/session";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -10,11 +13,19 @@ const nav = [
   { href: "/profile", label: "Profile & skills", icon: UserRound },
 ];
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
+  const dbUser = await db.user.findUniqueOrThrow({
+    where: { id: user.id },
+    select: { creditBalance: true },
+  });
+
   return (
     <div className="flex min-h-screen">
       <aside className="flex w-64 flex-col border-r border-sidebar-border bg-sidebar p-5 text-sidebar-foreground">
@@ -41,7 +52,9 @@ export default function DashboardLayout({
         <div className="mt-4 flex items-center justify-between rounded-xl border bg-card p-3">
           <div>
             <p className="text-xs text-muted-foreground">Your balance</p>
-            <CreditChip label="credits" className="mt-1">2</CreditChip>
+            <CreditChip label="credits" className="mt-1">
+              {dbUser.creditBalance}
+            </CreditChip>
           </div>
           <ModeToggle />
         </div>
