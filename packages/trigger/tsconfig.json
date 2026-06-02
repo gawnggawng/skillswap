@@ -4,5 +4,6 @@
     "outDir": "./dist",
     "rootDir": "."
   },
-  "include": ["**/*.ts"]
+  "include": ["jobs/**/*.ts", "src/**/*.ts"],
+  "exclude": ["vitest.config.ts"]
 }

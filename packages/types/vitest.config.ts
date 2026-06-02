@@ -2,7 +2,7 @@ import { definePackageConfig } from "../../vitest.shared";
 
 export default definePackageConfig({
   test: {
-    name: "@skillswap/core",
+    name: "@skillswap/types",
     environment: "node",
   },
 });

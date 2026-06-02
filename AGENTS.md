@@ -18,7 +18,9 @@ pnpm dev          # Start all apps in development mode
 pnpm build        # Build all apps
 pnpm lint         # Run linting across all packages
 pnpm typecheck    # Run TypeScript type checking
-pnpm test         # Run unit tests (Vitest)
+pnpm test         # Run unit tests (Vitest, all workspaces via Turbo)
+pnpm test:watch   # Vitest watch across the monorepo workspace
+pnpm test:coverage # Vitest coverage report (root workspace)
 pnpm test:e2e     # Run E2E tests (Playwright)
 pnpm clean        # Clean all build outputs
 ```
@@ -38,7 +40,7 @@ skillswap/
 ├── packages/api/    # Shared API client + React Query hooks (web & mobile)
 ├── packages/db/     # Prisma schema, migrations, client singleton, seed
 ├── packages/ui/     # Design tokens + shared components
-└── trigger/         # Trigger.dev background jobs
+└── packages/trigger/ # Trigger.dev background jobs
 ```
 
 **The dependency direction is one-way.** `apps/*` depend on `packages/*`; packages
@@ -54,7 +56,7 @@ never import from apps. Within packages: `api` → `types`, `db` → (nothing ap
 | Anything that touches the database (Prisma) | `packages/db` (client) + API routes |
 | A reusable, app-agnostic UI piece or design token | `packages/ui` |
 | Business logic for an API route (credits, matching, AI) | `apps/web/src/lib/*` |
-| A background/scheduled/delayed job | `trigger/jobs/*` |
+| A background/scheduled/delayed job | `packages/trigger/jobs/*` |
 
 If you're about to duplicate a type or a fetch call across web and mobile, stop and
 lift it into the right shared package instead.
@@ -148,7 +150,8 @@ the shadcn exception above.
 - Components & React files: `kebab-case.tsx` (`trust-score.tsx`, `mode-toggle.tsx`).
 - Hooks: `useThing.ts` (`useProfile.ts`, `useSessions.ts`).
 - Everything else: `kebab-case.ts` (`credits.ts`, `livekit.ts`, `daily-matching.ts`).
-- Test files sit next to their subject as `*.test.ts(x)`.
+- Test files sit next to their subject as `*.test.ts` or `*.test.tsx` (Vitest `include`
+  pattern). Never put tests under `__tests__` folders unless a framework requires it.
 
 ---
 
@@ -301,11 +304,11 @@ shape response.**
 
 ---
 
-## Background Jobs (`trigger/`)
+## Background Jobs (`packages/trigger/`)
 
 - Use Trigger.dev (not Vercel cron) for recurring, delayed, and long jobs.
 - Each job is a `task` with a stable `id` and an arrow `run` function; one file per job
-  under `trigger/jobs/`.
+  under `packages/trigger/jobs/`.
 - **Jobs must be idempotent** — re-running must not double-charge credits, double-send
   pushes, or re-close a room. Guard on state before acting.
 - Jobs reuse the same `packages/db` client and `apps/web/src/lib` logic where possible;
@@ -315,21 +318,120 @@ shape response.**
 
 ## Testing
 
+We use **Vitest 4** across the monorepo (every `apps/*` and `packages/*` workspace).
+Turbo runs `vitest run` per package; the root `vitest.config.ts` `test.projects` wires the same
+projects for `pnpm test:watch` and `pnpm test:coverage`.
+
+### Layout
+
+| File | Role |
+|---|---|
+| `vitest.shared.ts` | Shared defaults (`passWithNoTests`, include/exclude, mock hygiene) |
+| `vitest.config.ts` | Root Vitest config; `test.projects` lists all testable workspaces |
+| `<workspace>/vitest.config.ts` | Extends shared config; sets `test.name`, environment, aliases |
+| `<workspace>/vitest.setup.ts` | Optional (e.g. `@testing-library/jest-dom` on web/ui) |
+| `*.test.ts` / `*.test.tsx` | Co-located next to the module under test (see [Naming files](#naming-files)) |
+
+Run one workspace: `pnpm --filter @skillswap/core test` or `pnpm --filter @skillswap/web test:watch`.
+
+### What to test where
+
 | Layer | Tool | What to cover |
 |---|---|---|
-| Unit | Vitest | `packages/*` logic — credits, matching, timezone, utils |
-| API | Vitest + `next-test-api-route-handler` | every `/api/*` handler (happy + error paths) |
-| Component | Vitest + React Testing Library | critical web components |
-| Mobile | Jest + React Native Testing Library | critical mobile components |
+| Unit | Vitest (`environment: "node"`) | `packages/core`, pure helpers in `packages/db`, job logic in `packages/trigger` |
+| Hooks / client | Vitest + happy-dom | `packages/api` React Query hooks |
+| Component | Vitest + RTL + happy-dom | `packages/ui`, critical web route components |
+| API | Vitest + `next-test-api-route-handler` | every `apps/web/src/app/api/*` handler (happy + error paths) |
+| Mobile | Vitest (`node` for logic; RTL Native for UI when needed) | hooks/utils in `apps/mobile`; mock Expo modules in `vitest.setup.ts` |
 | E2E | Playwright | signup → teach → learn, booking → confirm → credit transfer |
 
+`packages/types` is usually types-only — no tests unless you add runtime validators.
+
+### Conventions
+
+- **Import from `vitest` explicitly** (`describe`, `it`, `expect`, `vi`) — do not enable
+  `globals`; keeps linting and IDE types predictable.
 - **Test behavior, not implementation.** Assert on outputs and side effects (a
   `CreditTransaction` row was written), not internal calls.
 - **Cover the money paths first:** insufficient-credit block, freeze-on-accept,
   transfer-on-double-confirm, auto-confirm after 24h, refund + penalty on no-confirm.
-- **Mock at the boundary** (DeepSeek, LiveKit, Upstash, push) — never hit real
-  external services in tests.
+- **Mock at the boundary** (Prisma via `vi.mock("@skillswap/db")`, DeepSeek, LiveKit,
+  Upstash, push) — never hit real DB or external services in unit/API tests.
+- **Restore mocks** — shared config sets `restoreMocks`, `clearMocks`, and `mockReset`.
+- **Empty workspaces pass** — `passWithNoTests: true` so CI stays green until tests land.
 - New business logic ships with tests in the same PR.
+
+### Examples
+
+**Unit test with a mocked DB** (`packages/core`):
+
+```ts
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("@skillswap/db", () => ({
+  db: {
+    $transaction: vi.fn(),
+    user: { update: vi.fn(), findUniqueOrThrow: vi.fn() },
+    creditTransaction: { create: vi.fn() },
+  },
+}));
+
+import { grantWelcomeCredits, WELCOME_CREDITS } from "./credits";
+import { db } from "@skillswap/db";
+
+describe("grantWelcomeCredits", () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it("writes welcome credits in a transaction", async () => {
+    await grantWelcomeCredits("user_1");
+    expect(db.$transaction).toHaveBeenCalledOnce();
+  });
+});
+```
+
+**API route handler** (`apps/web`):
+
+```ts
+import { describe, expect, it } from "vitest";
+import { testApiHandler } from "next-test-api-route-handler";
+
+import { POST } from "@/app/api/sessions/route";
+
+describe("POST /api/sessions", () => {
+  it("returns 401 when unauthenticated", async () => {
+    await testApiHandler({
+      appHandler: { POST },
+      test: async ({ fetch }) => {
+        const res = await fetch({ method: "POST", body: JSON.stringify({}) });
+        expect(res.status).toBe(401);
+      },
+    });
+  });
+});
+```
+
+**Component** (`packages/ui` or `apps/web`):
+
+```tsx
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
+import { TrustScore } from "./trust-score";
+
+describe("TrustScore", () => {
+  it("shows the score", () => {
+    render(<TrustScore score={4.2} />);
+    expect(screen.getByText("4.2")).toBeInTheDocument();
+  });
+});
+```
+
+### Dependencies
+
+Vitest and shared test libraries live in the **root** `package.json` (`vitest`,
+`@vitest/coverage-v8`, `vite`, `happy-dom`, `@vitejs/plugin-react`, Testing Library).
+Workspace-specific tools (e.g. `next-test-api-route-handler` on web,
+`@testing-library/react-native` on mobile) stay in that app’s `devDependencies`.
 
 ---
 
