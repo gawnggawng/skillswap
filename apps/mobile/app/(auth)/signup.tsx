@@ -1,7 +1,15 @@
 import { View, Text, Pressable } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import { authClient } from "../../lib/auth-client";
 
 export default function SignupScreen() {
+  const router = useRouter();
+
+  const signInWith = async (provider: "google" | "github") => {
+    await authClient.signIn.social({ provider, callbackURL: "/dashboard" });
+    router.replace("/(tabs)/dashboard");
+  };
+
   return (
     <View className="flex-1 justify-center bg-paper px-8">
       <Text className="font-display text-2xl font-bold text-ink">
@@ -11,12 +19,18 @@ export default function SignupScreen() {
         Get 2 free credits to start learning. Teach a session to earn more.
       </Text>
       <View className="mt-8 gap-3">
-        <Pressable className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200">
+        <Pressable
+          onPress={() => signInWith("google")}
+          className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200"
+        >
           <Text className="text-center font-semibold text-sand-700">
             Continue with Google
           </Text>
         </Pressable>
-        <Pressable className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200">
+        <Pressable
+          onPress={() => signInWith("github")}
+          className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200"
+        >
           <Text className="text-center font-semibold text-sand-700">
             Continue with GitHub
           </Text>

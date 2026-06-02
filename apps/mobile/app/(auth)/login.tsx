@@ -1,14 +1,13 @@
 import { View, Text, Pressable } from "react-native";
-import { Link } from "expo-router";
-import * as WebBrowser from "expo-web-browser";
-
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://localhost:4000";
+import { Link, useRouter } from "expo-router";
+import { authClient } from "../../lib/auth-client";
 
 export default function LoginScreen() {
-  const handleGoogleLogin = async () => {
-    await WebBrowser.openAuthSessionAsync(
-      `${API_URL}/api/auth/signin/google?callbackUrl=skillswap://login`
-    );
+  const router = useRouter();
+
+  const signInWith = async (provider: "google" | "github") => {
+    await authClient.signIn.social({ provider, callbackURL: "/dashboard" });
+    router.replace("/(tabs)/dashboard");
   };
 
   return (
@@ -21,14 +20,17 @@ export default function LoginScreen() {
       </Text>
       <View className="mt-8 gap-3">
         <Pressable
-          onPress={handleGoogleLogin}
+          onPress={() => signInWith("google")}
           className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200"
         >
           <Text className="text-center font-semibold text-sand-700">
             Continue with Google
           </Text>
         </Pressable>
-        <Pressable className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200">
+        <Pressable
+          onPress={() => signInWith("github")}
+          className="w-full rounded-xl border border-sand-300 py-4 active:bg-sand-200"
+        >
           <Text className="text-center font-semibold text-sand-700">
             Continue with GitHub
           </Text>
