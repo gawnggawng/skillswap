@@ -90,6 +90,12 @@ export const refundCredits = async (
 };
 
 export const grantWelcomeCredits = async (userId: string): Promise<void> => {
+  const existing = await db.creditTransaction.findFirst({
+    where: { userId, type: "WELCOME" },
+    select: { id: true },
+  });
+  if (existing) return;
+
   await db.$transaction([
     db.user.update({
       where: { id: userId },
