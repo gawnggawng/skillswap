@@ -6,7 +6,11 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const signInWith = async (provider: "google" | "github") => {
-    await authClient.signIn.social({ provider, callbackURL: "/dashboard" });
+    const { error } = await authClient.signIn.social({
+      provider,
+      callbackURL: "/dashboard",
+    });
+    if (error) return;
     router.replace("/(tabs)/dashboard");
   };
 
