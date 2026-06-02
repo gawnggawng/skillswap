@@ -6,6 +6,9 @@ node_modules/
 # turbo
 .turbo/
 
+# git worktrees (isolated feature branches)
+.worktrees/
+
 # next.js
 .next/
 out/
